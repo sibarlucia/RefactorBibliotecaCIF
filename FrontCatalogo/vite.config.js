@@ -12,7 +12,7 @@ export default defineConfig({
     host: '0.0.0.0',  // Esto hace que Vite escuche en todas las interfaces de red
     port: 3000,       // El puerto donde corre tu servidor
     proxy: {
-      '/libros': 'http://127.0.0.1:3001', // Proxy para redirigir las solicitudes de '/libros' al backend
+      '/libros': 'http://localhost:3001', // Proxy para redirigir las solicitudes de '/libros' al backend
     },
     cors: true, // Habilitar CORS
     hmr: false, // Desactivar Hot Module Replacement si es necesario
