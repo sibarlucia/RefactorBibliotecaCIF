@@ -9,7 +9,7 @@ const useLibros = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/libros');
+        const response = await axios.get('/api/libros');
         setData(response.data);
       } catch (error) {
         setError(error);
