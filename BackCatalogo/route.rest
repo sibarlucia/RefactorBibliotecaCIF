@@ -1,0 +1,19 @@
+GET http://localhost:3000/libros
+
+
+###
+
+
+GET http://localhost:3000/libros/647a92f70361cd0ae5a6855d
+
+
+###
+
+POST http://localhost:3000/libros
+Content-Type: application/json
+
+{
+    "titulo": "Prueba",
+    "autor" : "Prueba",
+    "idioma": "Prueba"
+}
