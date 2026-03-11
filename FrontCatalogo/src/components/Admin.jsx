@@ -88,12 +88,12 @@ const Admin = () => {
 
         {showSearch ? (
           <div className="bg-white p-8 rounded-lg shadow-md">
-            <h1 className="text-2xl font-bold mb-6 text-center">Administración: Modificar Entradas</h1>
+            <h1 style={{color:'black'}} className="text-2xl font-bold mb-6 text-center">Administración: Modificar Entradas</h1>
             <BuscadorAdmin data={data} onUpdate={refreshData} />
           </div>
         ) : (
         <div className="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">
-          <h1 className="text-2xl font-bold mb-6 text-center">Administración: Crear Nuevo Libro</h1>
+          <h1 style={{color:'black'}} className="text-2xl font-bold mb-6 text-center">Administración: Crear Nuevo Libro</h1>
 
           {message && (
             <div className={`mb-4 p-3 rounded ${message.includes('Error') ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>

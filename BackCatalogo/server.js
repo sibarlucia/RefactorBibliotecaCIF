@@ -13,7 +13,8 @@ app.use(helmet());
 
 // CORS Configuration
 app.use(cors({
-  origin: "http://200.58.107.119:3000",
+  // origin: "http://200.58.107.119:3000",
+  origin:"*",
   methods: "GET,POST,PUT,DELETE",
   allowedHeaders: "Content-Type,Authorization",
 }));
