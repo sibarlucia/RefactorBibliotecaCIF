@@ -1,0 +1,28 @@
+name: Deploy Automatico a VM
+
+on:
+  push:
+    branches:
+      - Updates
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ejecutar comandos en la VM
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 200.58.107.119
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 5974
+          script: |
+            cd /home/tu_usuario/RefactorBibliotecaCIF/
+            git fetch origin
+            git reset --hard origin/Updates
+            
+            # Reiniciar procesos de PM2
+            pm2 restart 9 10
+            
+            # Reiniciar Nginx para asegurar que los cambios de routing se apliquen
+            sudo systemctl restart nginx
