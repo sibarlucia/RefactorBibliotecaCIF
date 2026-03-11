@@ -9,11 +9,14 @@ export default defineConfig({
     outDir: 'dist',
   },
   server: {
-    host: '0.0.0.0',  // Esto hace que Vite escuche en todas las interfaces de red
+    host: '0.0.0.0', 
+    allowedHosts: [
+      'catalogo.cifnet.org.ar' // Agrega tu dominio aquí
+    ],
     port: 3000,       // El puerto donde corre tu servidor
     proxy: {
-      //'/libros': 'http://200.58.107.119:3001', // Proxy para redirigir las solicitudes de '/libros' al backend
-      '/libros': 'http://localhost:3001',
+      '/libros': 'http://200.58.107.119:3001', // Proxy para redirigir las solicitudes de '/libros' al backend
+      //'/libros': 'http://localhost:3001',
     },
     cors: true, // Habilitar CORS
     hmr: false, // Desactivar Hot Module Replacement si es necesario
