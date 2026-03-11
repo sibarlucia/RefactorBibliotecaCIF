@@ -9,7 +9,7 @@ const useLibros = () => {
   const fetchData = async () => {
     try {
       // Use relative path to work with Vite proxy
-      const response = await axios.get('/libros');
+      const response = await axios.get('/api/libros');
       setData(response.data);
     } catch (error) {
       setError(error);
