@@ -1,0 +1,11 @@
+
+> catalogocif@0.0.0 dev
+> vite
+
+
+  VITE v4.3.1  ready in 471 ms
+
+  ➜  Local:   http://localhost:8080/
+  ➜  Network: http://192.168.0.2:8080/
+(node:2591) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
