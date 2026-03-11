@@ -63,12 +63,26 @@ const Admin = () => {
   return (
     <div className="min-h-screen bg-gray-100 py-8">
       <div className="container mx-auto px-4 max-w-4xl">
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-6 space-x-4">
           <button
-            onClick={() => setShowSearch(!showSearch)}
-            className="px-6 py-2 bg-white border-2 border-[#EFA600] text-[#EFA600] font-bold rounded-lg hover:bg-[#EFA600] hover:text-white transition-colors"
+            onClick={() => setShowSearch(false)}
+            className={`px-6 py-2 font-bold rounded-lg transition-colors border-2 ${
+              !showSearch
+                ? 'bg-[#EFA600] text-white border-[#EFA600]'
+                : 'bg-white text-[#EFA600] border-[#EFA600] hover:bg-[#EFA600] hover:text-white'
+            }`}
           >
-            {showSearch ? 'Volver a Crear Nuevo' : 'Modificar una entrada existente'}
+            Crear Nuevo Libro
+          </button>
+          <button
+            onClick={() => setShowSearch(true)}
+            className={`px-6 py-2 font-bold rounded-lg transition-colors border-2 ${
+              showSearch
+                ? 'bg-[#EFA600] text-white border-[#EFA600]'
+                : 'bg-white text-[#EFA600] border-[#EFA600] hover:bg-[#EFA600] hover:text-white'
+            }`}
+          >
+            Modificar o Eliminar Entradas
           </button>
         </div>
 
