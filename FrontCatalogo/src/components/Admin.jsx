@@ -19,6 +19,8 @@ const Admin = () => {
   const navigate = useNavigate();
 
   const [libros, setLibros]     = useState([]);
+  const [busqueda, setBusqueda] = useState('');
+  const [resultados, setResultados] = useState([]);
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [editId, setEditId]     = useState(null);   // null → crear | id → editar
   const [message, setMessage]   = useState(null);   // { type: 'success'|'error', text }
@@ -36,10 +38,67 @@ const Admin = () => {
     try {
       const res = await axios.get('/api/libros');
       setLibros(res.data);
+      // Actualizar resultados de búsqueda si ya hay una búsqueda activa
+      if (busqueda.length >= 3) {
+        ejecutarBusqueda(res.data, busqueda);
+      }
     } catch {
       showMsg('error', 'Error al cargar los libros.');
     }
   }
+
+  const ejecutarBusqueda = (datos, termino) => {
+    const busquedaMin = termino.toLowerCase();
+
+    const getFieldValue = (field) => {
+      if (!field) return '';
+      if (typeof field === 'object') {
+        return field.texto || field.toString() || '';
+      }
+      return String(field);
+    };
+
+    const filtrados = datos
+      .map((libro) => {
+        const autor = getFieldValue(libro.autor).toLowerCase();
+        const titulo = getFieldValue(libro.titulo).toLowerCase();
+        const tituloAlt = getFieldValue(libro.titulo_alternativo || libro.tituloAlt).toLowerCase();
+        const palabrasClave = getFieldValue(libro.palabrasClave).toLowerCase();
+        const fechaPublicacion = getFieldValue(libro.fechaPublicacion).toLowerCase();
+
+        let prioridad = 4;
+        let matches = false;
+
+        if (autor.includes(busquedaMin)) {
+          prioridad = 1;
+          matches = true;
+        } else if (titulo.includes(busquedaMin)) {
+          prioridad = 2;
+          matches = true;
+        } else if (tituloAlt.includes(busquedaMin)) {
+          prioridad = 3;
+          matches = true;
+        } else if (palabrasClave.includes(busquedaMin) || fechaPublicacion.includes(busquedaMin)) {
+          prioridad = 4;
+          matches = true;
+        }
+
+        return { ...libro, prioridad, matches };
+      })
+      .filter((libro) => libro.matches)
+      .sort((a, b) => a.prioridad - b.prioridad);
+
+    setResultados(filtrados);
+  };
+
+  const handleBusqueda = (e) => {
+    e.preventDefault();
+    if (busqueda.length < 3) {
+      setResultados([]);
+      return;
+    }
+    ejecutarBusqueda(libros, busqueda);
+  };
 
   function showMsg(type, text) {
     setMessage({ type, text });
@@ -213,17 +272,35 @@ const Admin = () => {
           </form>
         </div>
 
-        {/* Listado de libros */}
+        {/* Buscador de libros para editar/eliminar */}
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-bold text-gray-800 mb-4">
-            Libros en la base de datos ({libros.length})
+            Buscar libro para editar o eliminar
           </h2>
 
-          {libros.length === 0 ? (
-            <p className="text-gray-500 text-sm">No hay libros registrados.</p>
+          <form onSubmit={handleBusqueda} className="flex gap-2 mb-6">
+            <input
+              type="text"
+              placeholder="Buscar por título, autor..."
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+              className="flex-1 border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-[#EFA600] focus:border-[#EFA600] outline-none"
+            />
+            <button
+              type="submit"
+              className="px-6 py-2 bg-[#EFA600] text-white rounded-md hover:bg-[#d99700] transition-colors font-semibold"
+            >
+              Buscar
+            </button>
+          </form>
+
+          {resultados.length === 0 ? (
+            <p className="text-gray-500 text-sm">
+              {busqueda.length >= 3 ? 'No se encontraron resultados.' : 'Ingresa al menos 3 caracteres para buscar.'}
+            </p>
           ) : (
             <div className="space-y-3 max-h-[500px] overflow-y-auto pr-1">
-              {libros.map((libro) => {
+              {resultados.map((libro) => {
                 const titulo =
                   typeof libro.titulo === 'object'
                     ? libro.titulo?.texto || JSON.stringify(libro.titulo)
