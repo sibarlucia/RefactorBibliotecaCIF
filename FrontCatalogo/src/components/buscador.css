@@ -1,0 +1,140 @@
+/* .searchInputs {
+    margin-top: 105px;
+    display: flex;
+    
+}
+
+.search input {
+    background-color: white;
+    border: 0;
+    border-radius: 2px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    font-size: 18px;
+    padding: 15px;
+    height: 30px;
+    width: 300px;
+}
+
+.searchIcon {
+    height: 60px;
+    width: 50px;
+    background-color: white;
+    display: grid;
+    place-items: center;
+}
+
+input:focus {
+    outline: none;
+}
+
+.searchIcon svg {
+    font-size: 35px;
+} */
+
+#padre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+form {
+   /* padding-left: 10%; */ 
+}
+
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('../fonts/Roboto-Medium.ttf') format('truetype');
+    /* Add additional font weights and styles if available */
+    font-weight: bold;
+    font-style: normal;
+  }
+*{
+    background-color: #ffffff;
+    font-family: Roboto, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.header {
+     /* display: flex; */
+    color: #4A4939;
+    height: auto;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   max-width:1000px;
+   width: 90%;
+    height: 40px;
+    /* background-color: #f2f2f2; */
+    background-color: #EFA600;
+    border-radius: 7px;
+    padding: 5px;
+    
+    opacity: 0.95;
+    
+    border: 1px solid #4A4939;
+    margin: 10px auto;
+    
+    
+  }
+  
+  .search-bar input {
+    color: black;
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding-left: 10px;
+    height: 30px;
+    /* width: 500px; */
+  }
+
+  .container {
+    background-color: #f9f9f9ea;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .container li {
+    background-color: #EFA600;
+    opacity: 0.95;
+    display: flex;
+    
+  }
+  
+  .container li h2 {
+    background-color: #EFA600;
+    color: black;
+    font-size: 24px;
+    margin-bottom: 5px;
+    margin-left: 15px;
+  }
+  
+  .container h3 {
+    background-color: #EFA600;
+    
+    color: black;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 5px;
+    margin-left: 15px;
+
+  }
+
+  .libros-container {
+    display: grid;
+    /* grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); */
+    gap: 15px;
+    padding: 10px;
+    width: 90%;
+    margin: auto;
+}
