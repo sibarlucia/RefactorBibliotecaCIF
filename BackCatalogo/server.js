@@ -13,11 +13,11 @@ app.use(helmet());
 
 // ─── CORS ─────────────────────────────────────────────────────────────────────
 // En desarrollo: permite localhost:3000.  En producción: usa FRONTEND_URL del .env
-/* const allowedOrigins = process.env.FRONTEND_URL
+ const allowedOrigins = process.env.FRONTEND_URL
   ? [process.env.FRONTEND_URL]
-  : ['http://localhost:3000']; */
+  : ['http://localhost:3000']; 
    // const allowedOrigins = ['http://localhost:3000'];
-   const allowedOrigins = ['*'];
+   //const allowedOrigins = ['*'];
 
 
 app.use(cors({
