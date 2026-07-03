@@ -1,4 +1,5 @@
-/*require('dotenv').config();
+
+/* require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
@@ -12,19 +13,18 @@ const app = express();
 app.use(helmet());
 
 // ─── CORS ─────────────────────────────────────────────────────────────────────
-// En desarrollo: permite localhost:3000.  En producción: usa FRONTEND_URL del .env
- const allowedOrigins = process.env.FRONTEND_URL
-  ? [process.env.FRONTEND_URL]
-  : ['http://localhost:3000']; 
-   // const allowedOrigins = ['http://localhost:3000'];
-   //const allowedOrigins = ['*'];
-
+// FRONTEND_URL puede tener uno o varios orígenes separados por coma, ej:
+// FRONTEND_URL=https://cifnet.org.ar,https://www.cifnet.org.ar
+const allowedOrigins = process.env.FRONTEND_URL
+  ? process.env.FRONTEND_URL.split(',').map((o) => o.trim().replace(/\/$/, ''))
+  : ['http://localhost:3000'];
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Permitir peticiones sin Origin (curl, Postman, etc.) sólo en dev
-    if (!origin && process.env.NODE_ENV !== 'production') return callback(null, true);
-    if (allowedOrigins.includes(origin)) return callback(null, true);
+    // Sin header Origin: curl/Postman en dev, o pedidos same-origin que pasan por nginx
+    if (!origin) return callback(null, true);
+    const normalized = origin.replace(/\/$/, '');
+    if (allowedOrigins.includes(normalized)) return callback(null, true);
     callback(new Error(`Origen no permitido por CORS: ${origin}`));
   },
   methods: 'GET,POST,PUT,PATCH,DELETE',
@@ -80,23 +80,9 @@ const app = express();
 app.use(helmet());
 
 // ─── CORS ─────────────────────────────────────────────────────────────────────
-// FRONTEND_URL puede tener uno o varios orígenes separados por coma, ej:
-// FRONTEND_URL=https://cifnet.org.ar,https://www.cifnet.org.ar
-const allowedOrigins = process.env.FRONTEND_URL
-  ? process.env.FRONTEND_URL.split(',').map((o) => o.trim().replace(/\/$/, ''))
-  : ['http://localhost:3000'];
-
-app.use(cors({
-  origin: (origin, callback) => {
-    // Sin header Origin: curl/Postman en dev, o pedidos same-origin que pasan por nginx
-    if (!origin) return callback(null, true);
-    const normalized = origin.replace(/\/$/, '');
-    if (allowedOrigins.includes(normalized)) return callback(null, true);
-    callback(new Error(`Origen no permitido por CORS: ${origin}`));
-  },
-  methods: 'GET,POST,PUT,PATCH,DELETE',
-  allowedHeaders: 'Content-Type,Authorization',
-}));
+// TEMPORAL: abierto mientras probamos el deploy con nginx (mismo origen).
+// Cuando quieras endurecerlo, volvé a la validación por FRONTEND_URL.
+app.use(cors());
 
 // ─── JSON body parser ─────────────────────────────────────────────────────────
 app.use(express.json());
